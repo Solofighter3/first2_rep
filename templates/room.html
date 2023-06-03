@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+{% block body %}
+<center>{{room.name}}</center>
+<div class="container">
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+<p>Random bullshit about products</p>
+<form id='form'>
+  <div class="input-group mb-3">
+  <input type="text" class="form-control" name="message" placeholder="Comments" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit">Button</button>
+   </div>
+  </div
+</form>
+<div id="messages">
+  {% for m in messages %}
+  <div class="alert alert-primary" role="alert"><b>{{m.user.username}}</b>:{{m.content}}<a href="./{{m.id}}" class="text-center">Del</a><br></div>
+  {% endfor %}
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ room.slug|json_script:"json-roomname"}}
+{{ request.user.username|json_script:"json-username"}}
+<script type="text/javascript">
+  const roomName=JSON.parse(document.getElementById("json-roomname").textContent)
+  const userName=JSON.parse(document.getElementById("json-username").textContent)
+  let url=`ws://${window.location.host}/ws/${roomName}/`
+  const chatsocket=new WebSocket(url);
+  
+  chatsocket.onmessage=function(e){
+    let data=JSON.parse(e.data)
+    if(data.type=='text'){
+      let messages=document.getElementById("messages")
+      messages.innerHTML+=('<div class="alert alert-primary" role="alert">'+'<b>'+data.username+'</b>:'+data.message+'<br>'+'</div>')
+    }
+  }
+
+  let form=document.getElementById('form')
+   form.addEventListener('submit',(e)=>{
+     e.preventDefault()
+     let message=e.target.message.value
+     chatsocket.send(JSON.stringify({
+       'message': message,
+       "username": userName,
+       "roomname": roomName
+     }))
+     form.reset()
+   })
+
+</script>
+
+{% endblock %}
+
