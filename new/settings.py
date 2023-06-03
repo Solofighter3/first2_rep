@@ -19,7 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-SECRET_KEY = 'django-insecure-&!ymynm@c(4eqrsxm3nmarnj*6h(u*aveyjunm#qry6o_a!ij)'
 
 DEBUG = True
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
