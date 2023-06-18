@@ -36,8 +36,9 @@ def signup(request):
        user = User.objects.create_user(username, email, password)
        authenticate(request, username=username, password=password)
        user.save()
-       return redirect("index")
-   
+       send_mails.delay()
+       return redirect('index')
+
     return render(request,"signup.html")
 
 def Login(request):
@@ -51,7 +52,6 @@ def Login(request):
        user=authenticate(request, username=username, password=password)
        if user is not None:            
             login(request, user)
-            send_mails.delay()
             return redirect("index")
          
        else:
