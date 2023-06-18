@@ -7,5 +7,7 @@ urlpatterns = [
     path('contacts/',views.contacts,name="contacts"),
     path('signup/',views.signup,name="signup"),
     path('Logout',views.Logout,name="Logout"),
+    path('sendmails',views.sendmails,name="Mails"),
+
    
 ]

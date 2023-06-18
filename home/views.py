@@ -1,9 +1,13 @@
+from django.http import request
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Contacts
 from .tasks import send_mails
+from django_celery_beat.models import PeriodicTask,CrontabSchedule
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 def index(request):
   if request.user.is_authenticated:
       return render(request,"index.html")
@@ -59,6 +63,12 @@ def Login(request):
 
 def Logout(request):
     logout(request)
-    return redirect("Login")
+    return redirect('Login')
 
 
+@login_required
+@permission_required('home.can_add_data')
+def sendmails(request):
+    schedule,created=CrontabSchedule.objects.get_or_create(hour=9,minute=14)
+    task=PeriodicTask.objects.create(crontab=schedule,name="send_mail_anishshi",task='home.tasks.send_mail1')
+    return render(request,"index.html")

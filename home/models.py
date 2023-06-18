@@ -7,5 +7,9 @@ class Contacts(models.Model):
     def __str__(self):
         return self.username
 
-
+   
+class Meta:
+       permissions = (
+         ("can_add_data","can add a new data"),
+         )
 
