@@ -20,6 +20,7 @@ class Chatconsumer(AsyncWebsocketConsumer):
         message=data['message']
         username=data['username']
         roomname=data['roomname']
+        await self.save_message(username,roomname,message)
         await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -48,8 +49,10 @@ class Chatconsumer(AsyncWebsocketConsumer):
         user = User.objects.get(username=username)
         room = Room.objects.get(slug=room)
 
-        Message.objects.create(user=user, room=room, content=message)
 
+        Message.objects.create(user=user, room=room, content=message)
+              
+              
         
 
 

@@ -15,7 +15,7 @@
 <p>Random bullshit about products</p>
 <form id='form'>
   <div class="input-group mb-3">
-  <input type="text" class="form-control" name="message" placeholder="Comments" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <input type="text" class="form-control" name="message" placeholder="Message us" aria-label="Recipient's username" aria-describedby="basic-addon2">
   <div class="input-group-append">
     <button class="btn btn-outline-secondary" type="submit">Button</button>
    </div>
@@ -23,7 +23,7 @@
 </form>
 <div id="messages">
   {% for m in messages %}
-  <div class="alert alert-primary" role="alert"><b>{{m.user.username}}</b>:{{m.content}}<a href="./{{m.id}}" class="text-center">Del</a><br></div>
+  <div class="alert alert-primary" role="alert"><b>{{m.user.username}}</b>:{{m.content}}<br></div>
   {% endfor %}
 </div>
 </div>
@@ -41,7 +41,7 @@
     let data=JSON.parse(e.data)
     if(data.type=='text'){
       let messages=document.getElementById("messages")
-      messages.innerHTML+=('<div class="alert alert-primary" role="alert">'+'<b>'+data.username+'</b>:'+data.message+'<br>'+'</div>')
+      messages.innerHTML+=('<div class="alert alert-primary" role="alert">'+'<b>'+data.username+'</b>:'+data.message+'<a href="./{{m.id}}" class="text-center">Del</a>'+'<br>'+'</div>')
     }
   }
 

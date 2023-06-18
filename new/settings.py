@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "channels",
+    'django_celery_results',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CELERY_BROKER_URL="redis://127.0.0.1:6379"
+CELERY_ACCEPT_CONTENT=["application/json"]
+CELERY_RESULT_SERIALIZER='json'
+CELERY_TASK_SERIALIZER='json'
+CELERY_TIMEZONE="Asia/Kathmandu"
+CELERY_RESULT_BACKEND='django-db'
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+
+#SMTP specifications in django
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER="anishsharma567889@gmail.com"#From which email id I want to send mails
+EMAIL_HOST='smtp.gmail.com'#Who will send mails
+EMAIL_PORT=587
+EMAIL_HOST_PASSWORD="vjnjwszurykerjbo"
+DEFAULT_FROM_EMAIL="Celery <anishsharma567889@gmail.com>"
+
