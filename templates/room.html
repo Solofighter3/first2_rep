@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 {% endblock %}
 {% block body %}
+<link rel="stylesheet" href="{% static 'css/room.css' %}">
 <center>{{room.name}}</center>
 <div class="container">
 <div class="card" style="width: 18rem;">
   <img class="card-img-top" src="..." alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
+    <h5 class="card-title">{{room.name}}</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
     <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
@@ -19,11 +21,15 @@
   <div class="input-group-append">
     <button class="btn btn-outline-secondary" type="submit">Button</button>
    </div>
-  </div
+  </div>
 </form>
 <div id="messages">
   {% for m in messages %}
-  <div class="alert alert-primary" role="alert"><b>{{m.user.username}}</b>:{{m.content}}<br></div>
+  <div class="alert alert-primary" role="alert"><b>{{m.user.username}}</b>:{{m.content}}
+    {% if request.user.username == m.user.username %}
+    <a href="./{{m.id}}" class="text-center">Delete</a>
+    {% endif %}
+    <br></div>
   {% endfor %}
 </div>
 </div>
@@ -41,7 +47,7 @@
     let data=JSON.parse(e.data)
     if(data.type=='text'){
       let messages=document.getElementById("messages")
-      messages.innerHTML+=('<div class="alert alert-primary" role="alert">'+'<b>'+data.username+'</b>:'+data.message+'<a href="./{{m.id}}" class="text-center">Del</a>'+'<br>'+'</div>')
+      messages.innerHTML+=('<div class="alert alert-primary" role="alert">'+'<b>'+data.username+'</b>:'+data.message+'<a href="./{{m.id}}" class="text-center">Wanna_delete{{m.id}}</a>'+'<br>'+'</div>')
     }
   }
 

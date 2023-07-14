@@ -48,10 +48,11 @@ class Chatconsumer(AsyncWebsocketConsumer):
     def save_message(self, username, room, message):
         user = User.objects.get(username=username)
         room = Room.objects.get(slug=room)
-
-
+        print(room)
         Message.objects.create(user=user, room=room, content=message)
-              
+        
+        
+             
               
         
 
